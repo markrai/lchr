@@ -4,58 +4,38 @@ class Solution {
 
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
 
-        ListNode result1 = new ListNode();
-        ListNode result2 = new ListNode();
-        ListNode result3 = new ListNode();
+        ListNode dummy_head = new ListNode(0);
+        ListNode l3 = dummy_head;
 
-        String firstString = "" + l1.next.next.val + l1.next.val + l1.val;
-        String secondString = "" + l2.next.next.val + l2.next.val + l2.val;
+        int carry = 0;
 
-        int firstInt = Integer.parseInt(firstString);
-        int secondInt = Integer.parseInt(secondString);
+        while (l1 != null || l2 != null) {
 
-        String resultString = firstInt + secondInt + "";
 
-        result1.val = Character.getNumericValue(resultString.charAt(3));
-        result2.val = Character.getNumericValue(resultString.charAt(2));
-        result3.val = Character.getNumericValue(resultString.charAt(1));
+            int l1_val = (l1 != null) ? l1.val : 0;
+            int l2_val = (l2 != null) ? l2.val : 0;
 
-        result1.next = result2;
-        result2.next = result3;
+            int current_sum = l1_val + l2_val + carry;
+            carry = current_sum / 10;
+            int last_digit = current_sum % 10;
 
-        return result1;
+            ListNode new_node = new ListNode(last_digit);
+            l3.next = new_node;
+
+            if (l1 != null) l1 = l1.next;
+            if (l2 != null) l2 = l2.next;
+            l3 = l3.next;
+        }
+
+        if (carry > 0) {
+
+            ListNode new_node = new ListNode(0);
+            l3.next = new_node;
+
+        }
+        return dummy_head;
     }
 
-
-    public static void main(String[] args) {
-
-        ListNode l1a = new ListNode();
-        ListNode l1b = new ListNode();
-        ListNode l1c = new ListNode();
-        ListNode l2a = new ListNode();
-        ListNode l2b = new ListNode();
-        ListNode l2c = new ListNode();
-
-
-        l1a.val = 2;
-        l1b.val = 4;
-        l1c.val = 3;
-
-        l1a.next = l1b;
-        l1b.next = l1c;
-
-
-        l2a.val = 5;
-        l2b.val = 6;
-        l2c.val = 4;
-
-        l2a.next = l2b;
-        l2b.next = l2c;
-
-
-        Solution s = new Solution();
-
-        s.addTwoNumbers(l1a, l2a);
-
-    }
 }
+
+
